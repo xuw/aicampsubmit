@@ -21,6 +21,7 @@ interface NotebookData {
 
 const FileViewer: React.FC<FileViewerProps> = ({ attachmentId, fileName, onClose }) => {
   const [content, setContent] = useState<string>('');
+  const [blobUrl, setBlobUrl] = useState<string>('');
   const [notebookData, setNotebookData] = useState<NotebookData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string>('');
@@ -37,8 +38,14 @@ const FileViewer: React.FC<FileViewerProps> = ({ attachmentId, fileName, onClose
         setLoading(true);
         setError('');
 
+        // For binary files (PDF, images), fetch as blob with authentication
+        if (['pdf', 'jpg', 'jpeg', 'png', 'gif'].includes(fileExtension)) {
+          const response = await submissionAPI.downloadAttachment(attachmentId);
+          const url = window.URL.createObjectURL(new Blob([response.data]));
+          setBlobUrl(url);
+        }
         // For text-based files, fetch and display content
-        if (['txt', 'md', 'json', 'ipynb', 'py', 'java', 'cpp', 'js', 'ts'].includes(fileExtension)) {
+        else if (['txt', 'md', 'json', 'ipynb', 'py', 'java', 'cpp', 'js', 'ts'].includes(fileExtension)) {
           const response = await submissionAPI.viewAttachment(attachmentId);
 
           if (fileExtension === 'ipynb') {
@@ -65,6 +72,13 @@ const FileViewer: React.FC<FileViewerProps> = ({ attachmentId, fileName, onClose
     };
 
     loadFile();
+
+    // Cleanup blob URL on unmount
+    return () => {
+      if (blobUrl) {
+        window.URL.revokeObjectURL(blobUrl);
+      }
+    };
   }, [attachmentId, fileExtension]);
 
   const renderNotebookCell = (cell: NotebookCell, index: number) => {
@@ -158,13 +172,12 @@ const FileViewer: React.FC<FileViewerProps> = ({ attachmentId, fileName, onClose
       );
     }
 
-    // PDF viewer
-    if (fileExtension === 'pdf') {
-      const viewUrl = `${import.meta.env.VITE_API_URL || '/api'}/submissions/attachments/${attachmentId}/view`;
+    // PDF viewer using blob URL
+    if (fileExtension === 'pdf' && blobUrl) {
       return (
         <div className="w-full h-full">
           <iframe
-            src={viewUrl}
+            src={blobUrl}
             className="w-full h-full border-0"
             title={fileName}
             style={{ minHeight: '80vh' }}
@@ -173,13 +186,12 @@ const FileViewer: React.FC<FileViewerProps> = ({ attachmentId, fileName, onClose
       );
     }
 
-    // Image viewer
-    if (['jpg', 'jpeg', 'png', 'gif'].includes(fileExtension)) {
-      const viewUrl = `${import.meta.env.VITE_API_URL || '/api'}/submissions/attachments/${attachmentId}/view`;
+    // Image viewer using blob URL
+    if (['jpg', 'jpeg', 'png', 'gif'].includes(fileExtension) && blobUrl) {
       return (
         <div className="flex items-center justify-center p-8 bg-gray-50">
           <img
-            src={viewUrl}
+            src={blobUrl}
             alt={fileName}
             className="max-w-full h-auto rounded-lg shadow-lg"
           />
