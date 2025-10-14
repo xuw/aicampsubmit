@@ -206,7 +206,7 @@ const Login: React.FC = () => {
         {/* Footer */}
         <div className="text-center mt-6">
           <p className="text-purple-100 text-sm">
-            Secure authentication powered by Tsinghua University
+            Secure authentication powered by WeiXu
           </p>
         </div>
       </div>
