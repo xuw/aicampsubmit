@@ -31,7 +31,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       'block px-3 py-2 border-2 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-0 transition-all duration-200 disabled:bg-gray-100 disabled:cursor-not-allowed disabled:text-gray-500';
 
     const normalStyles =
-      'border-gray-400 focus:border-tsinghua-purple focus:ring-tsinghua-purple hover:border-gray-500';
+      'border-gray-400 focus:border-purple-600 focus:ring-purple-600 hover:border-gray-500';
 
     const errorStyles =
       'border-red-500 focus:border-red-500 focus:ring-red-500';

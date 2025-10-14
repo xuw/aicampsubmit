@@ -23,7 +23,7 @@ const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
   };
 
   const colorStyles = {
-    primary: 'text-tsinghua-purple',
+    primary: 'text-purple-600',
     white: 'text-white',
     gray: 'text-gray-500',
   };

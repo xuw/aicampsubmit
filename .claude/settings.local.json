@@ -27,7 +27,17 @@
       "Bash(npx tsc:*)",
       "Bash(DATABASE_URL=postgresql://homework_user:homework_secure_password_123@localhost:5432/homework_system_test JWT_SECRET=test-jwt-secret-key-for-testing-minimum-32-chars NODE_ENV=test npx ts-node src/server.ts)",
       "Bash(git init:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$(cat <<''EOF''\nInitial commit: AI+ Bootcamp Homework Submission System\n\nFull-stack homework management system with:\n- Backend: Node.js, Express, TypeScript, PostgreSQL\n- Frontend: React, TypeScript, Tailwind CSS\n- Features: Role-based access (Student/TA/Instructor/Admin), assignment management, submission tracking, file uploads, grading, i18n (English/Chinese)\n- Authentication: JWT-based with secure password hashing\n- UI: Responsive design with optimized logo and Chinese default language\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
+      "Bash(gh repo create:*)",
+      "Bash(gh auth:*)",
+      "Bash(git remote add:*)",
+      "Bash(git branch:*)",
+      "Bash(git push:*)",
+      "Bash(find:*)",
+      "Bash(npx ts-node:*)",
+      "Bash(export NODE_ENV=development)",
+      "Bash(pg_isready:*)"
     ],
     "deny": [],
     "ask": []

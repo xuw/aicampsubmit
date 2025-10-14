@@ -34,7 +34,7 @@ const Card: React.FC<CardProps> & {
 
   const variantStyles = {
     default: 'border border-gray-200',
-    bordered: 'border-2 border-tsinghua-purple',
+    bordered: 'border-2 border-purple-600',
     elevated: 'shadow-lg',
   };
 
@@ -46,7 +46,7 @@ const Card: React.FC<CardProps> & {
   };
 
   const hoverStyles = hoverable
-    ? 'hover:shadow-xl hover:border-tsinghua-purple cursor-pointer'
+    ? 'hover:shadow-xl hover:border-purple-600 cursor-pointer'
     : '';
 
   const combinedClassName = `${baseStyles} ${variantStyles[variant]} ${paddingStyles[padding]} ${hoverStyles} ${className}`.trim();

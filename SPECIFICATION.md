@@ -1,46 +1,74 @@
 # AI+ Bootcamp Submission System - Technical Specification
 ## AI交叉创新营作业提交系统
 
+## 0. Recent Updates and Enhancements
+
+### Version 2.0 - Latest Changes (2025)
+
+#### 0.1 Internationalization (i18n)
+- **Full Bilingual Support**: Complete English and Chinese translations across all UI components
+- **Persistent Language Selection**: User language preference is saved in localStorage and persists across sessions
+- **Default Language**: System defaults to Chinese (zh-CN) but automatically uses saved preference
+- **Language Switcher**: Available on login, registration, and all authenticated pages in the navbar
+- **Dynamic Translation**: All text content, error messages, validation messages, and UI labels are translated
+
+#### 0.2 File Upload Enhancements
+- **Jupyter Notebook Support**: Added support for `.ipynb` file uploads (MIME types: `application/x-ipynb+json`, `application/json`)
+- **Supported File Types**:
+  - Images: JPEG, PNG, GIF
+  - Documents: PDF, DOC, DOCX, TXT
+  - Archives: ZIP
+  - Notebooks: IPYNB (Jupyter)
+- **File Validation**: Both MIME type and file extension validation for reliable file type detection
+
+#### 0.3 Improved Navigation & UX
+- **Clickable Submission Cards**: Recent submissions on dashboard now link directly to detailed submission view
+- **Student Submission Access**: Students can view their own submission details, including original content, attachments, grades, and feedback
+- **Enhanced Visual Feedback**: Hover states and transitions on interactive elements
+- **Optimized Logo**: Reduced white space in SVG logo for better visual prominence
+
+#### 0.4 Branding Updates
+- **Organization**: Changed from "Tsinghua University" to "WeiXu"
+- **GitHub Integration**: Added GitHub repository link in footer with icon
+- **Color Scheme**: Maintained purple-based color palette but removed Tsinghua-specific branding
+- **Footer Redesign**: Simplified footer with GitHub link and minimal navigation
+
+#### 0.5 Technical Improvements
+- **Language Detection**: Implemented i18next-browser-languagedetector for automatic language preference management
+- **localStorage Integration**: Language preferences stored client-side for persistence
+- **React i18next**: Full integration with React hooks (useTranslation) for dynamic content
+- **Event Listeners**: Language change events properly saved to localStorage automatically
+
 ## 1. System Overview
 
 ### 1.1 Purpose
-A web-based homework submission and feedback system for the AI+ Bootcamp (AI交叉创新营) that enables students to submit assignments online and allows TAs/instructors to provide feedback. The system supports file attachments and markdown text submissions.
+A web-based homework submission and feedback system for the AI+ Bootcamp (AI交叉创新营) that enables students to submit assignments online and allows TAs/instructors to provide feedback. The system supports file attachments (including Jupyter notebooks), markdown text submissions, and full bilingual interface (English/Chinese).
 
 ### 1.2 System Branding
 - **English Name**: AI+ Bootcamp Submission System
 - **Chinese Name**: AI交叉创新营作业提交系统
 - **Short Name (EN)**: AI+ Bootcamp
 - **Short Name (CN)**: AI交叉创新营
+- **Author/Organization**: WeiXu
+- **Repository**: https://github.com/xuw/aicampsubmit
 
-### 1.2 User Roles
-- **Student**: Can submit homework, view their submissions, and receive feedback
-- **TA (Teaching Assistant)**: Can view all submissions, provide feedback, and create assignments
+### 1.4 User Roles
+- **Student**: Can submit homework, view their own submissions and feedback, download attachments
+- **TA (Teaching Assistant)**: Can view all submissions, provide feedback and grades, create assignments
 - **Instructor**: Same permissions as TA, plus can create/edit assignments
-- **Admin**: Can promote users to TA/Instructor roles
+- **Admin**: Can promote users to TA/Instructor roles, full system access
 
-### 1.2 System Branding
-- **English Name**: AI+ Bootcamp Submission System
-- **Chinese Name**: AI交叉创新营作业提交系统
-- **Short Name (EN)**: AI+ Bootcamp
-- **Short Name (CN)**: AI交叉创新营
+### 1.5 UI Design System
 
-### 1.3 User Roles
-- **Student**: Can submit homework, view their submissions, and receive feedback
-- **TA (Teaching Assistant)**: Can view all submissions, provide feedback, and create assignments
-- **Instructor**: Same permissions as TA, plus can create/edit assignments
-- **Admin**: Can promote users to TA/Instructor roles
+#### 1.5.1 Design Philosophy
+The interface follows a clean, scholarly, and professional design language with a modern academic aesthetic. The design emphasizes clarity, accessibility, bilingual support, and user-friendly interactions.
 
-### 1.4 UI Design System (Tsinghua Style)
-
-#### 1.4.1 Design Philosophy
-The interface follows Tsinghua University's design language - clean, scholarly, and professional with a modern academic aesthetic. The design emphasizes clarity, accessibility, and a sense of prestige befitting an academic institution.
-
-#### 1.4.2 Color Palette
+#### 1.5.2 Color Palette
 
 **Primary Colors:**
-- **Tsinghua Purple**: `#5E2C91` (Primary brand color)
-- **Deep Purple**: `#491E6B` (Hover states, emphasis)
-- **Light Purple**: `#8B5FB5` (Secondary elements, backgrounds)
+- **Purple 600**: `#9333EA` (Primary brand color)
+- **Purple 700**: `#7E22CE` (Hover states, emphasis)
+- **Purple 400**: `#C084FC` (Secondary elements, backgrounds)
 
 **Accent Colors:**
 - **Academic Blue**: `#2B5CB8` (Links, informational elements)
@@ -322,13 +350,19 @@ The system logo features:
 - PNG with transparent background for emails and documents
 - ICO for browser favicon
 
-### 1.5 Technology Stack Recommendations
-- **Frontend**: React with TypeScript
-- **Backend**: Node.js with Express
-- **Database**: PostgreSQL or MongoDB
-- **Authentication**: JWT tokens
-- **File Storage**: Local filesystem or cloud storage (S3-compatible)
-- **Markdown Support**: markdown-it or react-markdown
+### 1.6 Technology Stack
+- **Frontend**: React 18+ with TypeScript, Vite
+  - **Routing**: React Router v6
+  - **Styling**: Tailwind CSS
+  - **i18n**: react-i18next with i18next-browser-languagedetector
+  - **HTTP Client**: Axios
+  - **State Management**: React Context API
+- **Backend**: Node.js with Express and TypeScript
+  - **File Upload**: Multer
+  - **Authentication**: JWT tokens with bcrypt
+- **Database**: PostgreSQL
+- **File Storage**: Local filesystem (uploads directory)
+- **Markdown Support**: Built-in rendering for assignment descriptions
 
 ## 2. Data Models
 
@@ -464,7 +498,7 @@ interface Feedback {
     "dueDate": "2025-10-20T23:59:59Z",
     "allowLateSubmission": false,
     "maxFileSize": 10,
-    "allowedFileTypes": ["pdf", "docx", "zip"]
+    "allowedFileTypes": ["pdf", "docx", "zip", "ipynb", "txt", "jpg", "png"]
   }
   ```
 - **Response**: `Assignment`
@@ -842,9 +876,11 @@ Similar layout to login page with additional fields:
 - TAs/Instructors can access all student data within their scope
 
 ### 6.3 File Upload Security
-- Validate file types on server side
+- Validate file types on server side (both MIME type and file extension)
+- Special handling for Jupyter notebooks (.ipynb files with application/json MIME type)
 - Scan uploaded files for malware (if possible)
 - Store files outside web root
+- Maximum file size validation (default 10MB)
 - Generate unique file names to prevent overwrites
 - Implement file size limits
 

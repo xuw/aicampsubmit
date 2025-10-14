@@ -205,7 +205,7 @@ const AssignmentDetail: React.FC = () => {
     return (
       <div className="max-w-4xl mx-auto px-4 py-16 text-center">
         <h2 className="text-2xl font-bold text-gray-900">Assignment not found</h2>
-        <Link to="/assignments" className="mt-4 inline-block text-tsinghua-purple hover:text-tsinghua-purple-dark">
+        <Link to="/assignments" className="mt-4 inline-block text-purple-600 hover:text-purple-700">
           Back to Assignments
         </Link>
       </div>
@@ -221,7 +221,7 @@ const AssignmentDetail: React.FC = () => {
       {/* Back Button */}
       <Link
         to="/assignments"
-        className="inline-flex items-center text-tsinghua-purple hover:text-tsinghua-purple-dark mb-6"
+        className="inline-flex items-center text-purple-600 hover:text-purple-700 mb-6"
       >
         <svg
           className="w-5 h-5 mr-2"
@@ -380,7 +380,7 @@ const AssignmentDetail: React.FC = () => {
                       </p>
                     )}
                     {mySubmission.grade !== null && (
-                      <p className="mt-1 text-lg font-bold text-tsinghua-purple">
+                      <p className="mt-1 text-lg font-bold text-purple-600">
                         Grade: {mySubmission.grade}/100
                       </p>
                     )}
@@ -398,7 +398,7 @@ const AssignmentDetail: React.FC = () => {
                   value={textContent}
                   onChange={(e) => setTextContent(e.target.value)}
                   rows={8}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-tsinghua-purple focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
                   placeholder="Enter your submission text here..."
                   disabled={submitting || (mySubmission?.status === 'graded')}
                 />
@@ -414,7 +414,7 @@ const AssignmentDetail: React.FC = () => {
                   multiple
                   onChange={handleFileChange}
                   disabled={submitting || (mySubmission?.status === 'graded')}
-                  className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-tsinghua-purple file:text-white hover:file:bg-tsinghua-purple-dark"
+                  className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-purple-600 file:text-white hover:file:bg-purple-700"
                 />
                 {selectedFiles.length > 0 && (
                   <div className="mt-2 space-y-1">
@@ -508,7 +508,7 @@ const AssignmentDetail: React.FC = () => {
                 {allSubmissions.map((submission) => (
                   <div
                     key={submission.id}
-                    className="border border-gray-200 rounded-lg p-4 hover:border-tsinghua-purple transition-colors"
+                    className="border border-gray-200 rounded-lg p-4 hover:border-purple-600 transition-colors"
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex-1">
@@ -521,7 +521,7 @@ const AssignmentDetail: React.FC = () => {
                           </p>
                         )}
                         {submission.grade !== null && (
-                          <p className="text-sm font-medium text-tsinghua-purple mt-1">
+                          <p className="text-sm font-medium text-purple-600 mt-1">
                             Grade: {submission.grade}/100
                           </p>
                         )}

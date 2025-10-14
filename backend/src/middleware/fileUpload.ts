@@ -15,12 +15,15 @@ const storage = multer.diskStorage({
 const fileFilter = (req: Request, file: Express.Multer.File, cb: multer.FileFilterCallback) => {
   const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'application/pdf',
     'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-    'application/zip', 'text/plain'];
+    'application/zip', 'text/plain', 'application/x-ipynb+json', 'application/json'];
 
-  if (allowedTypes.includes(file.mimetype)) {
+  // Also check file extension for .ipynb files (they may come as application/json)
+  const isIpynb = file.originalname.toLowerCase().endsWith('.ipynb');
+
+  if (allowedTypes.includes(file.mimetype) || isIpynb) {
     cb(null, true);
   } else {
-    cb(new Error('Invalid file type. Only images, PDFs, documents, and zip files are allowed.'));
+    cb(new Error('Invalid file type. Only images, PDFs, documents, zip files, and Jupyter notebooks are allowed.'));
   }
 };
 

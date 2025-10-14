@@ -273,7 +273,7 @@ const UserManagement: React.FC = () => {
                 <select
                   value={roleFilter}
                   onChange={(e) => handleRoleFilterChange(e.target.value)}
-                  className="block w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-tsinghua-purple focus:border-tsinghua-purple"
+                  className="block w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-purple-600 focus:border-purple-600"
                 >
                   <option value="">All Roles</option>
                   {ROLES.map((role) => (
@@ -345,7 +345,7 @@ const UserManagement: React.FC = () => {
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center">
                           <div className="flex-shrink-0 h-10 w-10">
-                            <div className="h-10 w-10 rounded-full bg-tsinghua-purple flex items-center justify-center text-white font-semibold">
+                            <div className="h-10 w-10 rounded-full bg-purple-600 flex items-center justify-center text-white font-semibold">
                               {u.firstName.charAt(0)}
                               {u.lastName.charAt(0)}
                             </div>
@@ -377,7 +377,7 @@ const UserManagement: React.FC = () => {
                           <select
                             value={u.role}
                             onChange={(e) => handleOpenConfirmModal(u, e.target.value)}
-                            className="text-sm border border-gray-300 rounded-lg px-2 py-1 focus:ring-tsinghua-purple focus:border-tsinghua-purple disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="text-sm border border-gray-300 rounded-lg px-2 py-1 focus:ring-purple-600 focus:border-purple-600 disabled:opacity-50 disabled:cursor-not-allowed"
                             disabled={updatingUserId === u.id || u.id === user?.id}
                           >
                             {ROLES.map((role) => (
@@ -474,7 +474,7 @@ const UserManagement: React.FC = () => {
                   </svg>
                   <div>
                     <p className="text-sm font-medium text-gray-500">New Role</p>
-                    <p className="text-base font-semibold text-tsinghua-purple mt-1">
+                    <p className="text-base font-semibold text-purple-600 mt-1">
                       {getRoleLabel(confirmModal.newRole)}
                     </p>
                   </div>

@@ -280,7 +280,7 @@ const CreateAssignment: React.FC = () => {
                 className={`block w-full px-3 py-2 border rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-0 transition-all duration-200 disabled:bg-gray-100 disabled:cursor-not-allowed ${
                   errors.description
                     ? 'border-red-500 focus:border-red-500 focus:ring-red-500'
-                    : 'border-gray-300 focus:border-tsinghua-purple focus:ring-tsinghua-purple'
+                    : 'border-gray-300 focus:border-purple-600 focus:ring-purple-600'
                 }`}
                 placeholder="Describe the assignment requirements..."
                 required
@@ -318,7 +318,7 @@ const CreateAssignment: React.FC = () => {
                 name="allowLateSubmission"
                 checked={formData.allowLateSubmission}
                 onChange={handleInputChange}
-                className="w-4 h-4 text-tsinghua-purple border-gray-300 rounded focus:ring-tsinghua-purple focus:ring-2"
+                className="w-4 h-4 text-purple-600 border-gray-300 rounded focus:ring-purple-600 focus:ring-2"
                 disabled={loading}
               />
               <label
@@ -358,7 +358,7 @@ const CreateAssignment: React.FC = () => {
                     key={option.value}
                     className={`flex items-center p-3 border rounded-lg cursor-pointer transition-all duration-200 ${
                       formData.allowedFileTypes.includes(option.value)
-                        ? 'border-tsinghua-purple bg-purple-50'
+                        ? 'border-purple-600 bg-purple-50'
                         : 'border-gray-300 hover:border-gray-400'
                     } ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
                     onClick={() => !loading && handleFileTypeToggle(option.value)}
@@ -367,7 +367,7 @@ const CreateAssignment: React.FC = () => {
                       type="checkbox"
                       checked={formData.allowedFileTypes.includes(option.value)}
                       onChange={() => handleFileTypeToggle(option.value)}
-                      className="w-4 h-4 text-tsinghua-purple border-gray-300 rounded focus:ring-tsinghua-purple focus:ring-2"
+                      className="w-4 h-4 text-purple-600 border-gray-300 rounded focus:ring-purple-600 focus:ring-2"
                       disabled={loading}
                     />
                     <span className="ml-2 text-sm text-gray-700">

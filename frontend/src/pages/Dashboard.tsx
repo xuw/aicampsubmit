@@ -167,7 +167,7 @@ const Dashboard: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <Card variant="elevated" hoverable>
           <div className="flex items-center">
-            <div className="flex-shrink-0 bg-tsinghua-purple rounded-lg p-3">
+            <div className="flex-shrink-0 bg-purple-600 rounded-lg p-3">
               <svg
                 className="w-8 h-8 text-white"
                 fill="none"
@@ -303,7 +303,7 @@ const Dashboard: React.FC = () => {
               action={
                 <Link
                   to="/assignments"
-                  className="text-sm font-medium text-tsinghua-purple hover:text-tsinghua-purple-dark"
+                  className="text-sm font-medium text-purple-600 hover:text-purple-700"
                 >
                   View All
                 </Link>
@@ -329,7 +329,7 @@ const Dashboard: React.FC = () => {
                   {isInstructor && (
                     <Link
                       to="/assignments"
-                      className="mt-2 inline-block text-tsinghua-purple hover:text-tsinghua-purple-dark"
+                      className="mt-2 inline-block text-purple-600 hover:text-purple-700"
                     >
                       Create your first assignment
                     </Link>
@@ -341,7 +341,7 @@ const Dashboard: React.FC = () => {
                     <Link
                       key={assignment.id}
                       to={`/assignments/${assignment.id}`}
-                      className="block border border-gray-200 rounded-lg p-4 hover:border-tsinghua-purple hover:shadow-md transition-all duration-200"
+                      className="block border border-gray-200 rounded-lg p-4 hover:border-purple-600 hover:shadow-md transition-all duration-200"
                     >
                       <div className="flex items-start justify-between">
                         <div className="flex-1">
@@ -387,7 +387,7 @@ const Dashboard: React.FC = () => {
                 !isInstructor && (
                   <Link
                     to="/my-submissions"
-                    className="text-sm font-medium text-tsinghua-purple hover:text-tsinghua-purple-dark"
+                    className="text-sm font-medium text-purple-600 hover:text-purple-700"
                   >
                     View All
                   </Link>
@@ -415,9 +415,10 @@ const Dashboard: React.FC = () => {
               ) : (
                 <div className="space-y-4">
                   {recentSubmissions.map((submission) => (
-                    <div
+                    <Link
                       key={submission.id}
-                      className="border border-gray-200 rounded-lg p-4"
+                      to={`/submissions/${submission.id}`}
+                      className="block border border-gray-200 rounded-lg p-4 hover:border-purple-300 hover:shadow-md transition-all duration-200"
                     >
                       <div className="flex items-start justify-between">
                         <div className="flex-1">
@@ -432,7 +433,7 @@ const Dashboard: React.FC = () => {
                           {submission.status === 'graded' && submission.grade !== null && (
                             <div className="mt-2 flex items-center">
                               <span className="text-sm font-medium text-gray-700">Grade:</span>
-                              <span className="ml-2 text-lg font-bold text-tsinghua-purple">
+                              <span className="ml-2 text-lg font-bold text-purple-600">
                                 {submission.grade}/100
                               </span>
                             </div>
@@ -440,7 +441,7 @@ const Dashboard: React.FC = () => {
                         </div>
                         <div>{getSubmissionStatusBadge(submission.status)}</div>
                       </div>
-                    </div>
+                    </Link>
                   ))}
                 </div>
               )}

@@ -26,9 +26,9 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
     const variantStyles = {
       primary:
-        'bg-tsinghua-purple text-white hover:bg-tsinghua-purple-dark focus:ring-tsinghua-purple shadow-md hover:shadow-lg active:bg-primary-800 font-semibold',
+        'bg-purple-600 text-white hover:bg-purple-700 focus:ring-purple-600 shadow-md hover:shadow-lg active:bg-primary-800 font-semibold',
       secondary:
-        'bg-white text-tsinghua-purple-dark border-2 border-tsinghua-purple hover:bg-primary-50 focus:ring-tsinghua-purple shadow-sm hover:shadow-md font-semibold',
+        'bg-white text-purple-700 border-2 border-purple-600 hover:bg-primary-50 focus:ring-purple-600 shadow-sm hover:shadow-md font-semibold',
       danger:
         'bg-danger text-white hover:bg-red-700 focus:ring-red-500 shadow-md hover:shadow-lg active:bg-red-800 font-semibold',
     };

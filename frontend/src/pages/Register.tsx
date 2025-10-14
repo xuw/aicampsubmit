@@ -131,7 +131,7 @@ const Register: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-tsinghua-purple to-purple-800 flex items-center justify-center px-4 py-12 relative">
+    <div className="min-h-screen bg-gradient-to-br from-purple-600 to-purple-800 flex items-center justify-center px-4 py-12 relative">
       {/* Language Selector */}
       <div className="absolute top-4 right-4">
         <select
@@ -149,7 +149,7 @@ const Register: React.FC = () => {
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-16 h-16 bg-white rounded-full shadow-lg mb-4">
             <svg
-              className="w-10 h-10 text-tsinghua-purple"
+              className="w-10 h-10 text-purple-600"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -343,7 +343,7 @@ const Register: React.FC = () => {
             <div className="text-center">
               <Link
                 to="/login"
-                className="text-tsinghua-purple hover:text-tsinghua-purple-dark font-semibold transition-colors duration-200"
+                className="text-purple-600 hover:text-purple-700 font-semibold transition-colors duration-200"
               >
                 {t('auth.signInInstead')}
               </Link>

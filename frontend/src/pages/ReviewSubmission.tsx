@@ -366,7 +366,7 @@ const ReviewSubmission: React.FC = () => {
                     >
                       <div className="flex items-center flex-1 min-w-0">
                         <svg
-                          className="w-8 h-8 text-tsinghua-purple flex-shrink-0"
+                          className="w-8 h-8 text-purple-600 flex-shrink-0"
                           fill="currentColor"
                           viewBox="0 0 20 20"
                         >
@@ -426,7 +426,7 @@ const ReviewSubmission: React.FC = () => {
                           </p>
                         </div>
                         {feedback.grade !== null && feedback.grade !== undefined && (
-                          <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-tsinghua-purple text-white">
+                          <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-purple-600 text-white">
                             Grade: {feedback.grade}/100
                           </span>
                         )}
@@ -438,7 +438,7 @@ const ReviewSubmission: React.FC = () => {
                             value={editContent}
                             onChange={(e) => setEditContent(e.target.value)}
                             rows={4}
-                            className="block w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-tsinghua-purple focus:border-tsinghua-purple mb-3"
+                            className="block w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-purple-600 focus:border-purple-600 mb-3"
                             disabled={submitting}
                           />
                           <input
@@ -449,7 +449,7 @@ const ReviewSubmission: React.FC = () => {
                             min="0"
                             max="100"
                             step="0.1"
-                            className="block w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-tsinghua-purple focus:border-tsinghua-purple mb-3"
+                            className="block w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-purple-600 focus:border-purple-600 mb-3"
                             disabled={submitting}
                           />
                           {editError && (
@@ -523,7 +523,7 @@ const ReviewSubmission: React.FC = () => {
                     value={feedbackContent}
                     onChange={(e) => setFeedbackContent(e.target.value)}
                     rows={8}
-                    className="block w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-tsinghua-purple focus:border-tsinghua-purple"
+                    className="block w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-purple-600 focus:border-purple-600"
                     placeholder="Enter your feedback for the student..."
                     required
                     disabled={submitting}
@@ -546,7 +546,7 @@ const ReviewSubmission: React.FC = () => {
                     min="0"
                     max="100"
                     step="0.1"
-                    className="block w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-tsinghua-purple focus:border-tsinghua-purple"
+                    className="block w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-purple-600 focus:border-purple-600"
                     disabled={submitting}
                   />
                 </div>

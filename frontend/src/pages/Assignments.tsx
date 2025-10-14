@@ -206,7 +206,7 @@ const Assignments: React.FC = () => {
                         to={`/assignments/${assignment.id}`}
                         className="flex-1"
                       >
-                        <h3 className="text-xl font-bold text-gray-900 hover:text-tsinghua-purple transition-colors">
+                        <h3 className="text-xl font-bold text-gray-900 hover:text-purple-600 transition-colors">
                           {assignment.title}
                         </h3>
                       </Link>
@@ -404,7 +404,7 @@ const Assignments: React.FC = () => {
                         onClick={() => handlePageChange(page)}
                         className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium ${
                           currentPage === page
-                            ? 'z-10 bg-tsinghua-purple border-tsinghua-purple text-white'
+                            ? 'z-10 bg-purple-600 border-purple-600 text-white'
                             : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
                         }`}
                       >

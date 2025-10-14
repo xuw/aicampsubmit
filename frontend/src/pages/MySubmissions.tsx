@@ -198,7 +198,7 @@ const MySubmissions: React.FC = () => {
         <Card variant="elevated" hoverable>
           <div className="text-center">
             <p className="text-sm font-medium text-gray-600">Average Grade</p>
-            <p className="text-3xl font-bold text-tsinghua-purple mt-2">
+            <p className="text-3xl font-bold text-purple-600 mt-2">
               {averageGrade || '-'}
             </p>
           </div>
@@ -222,7 +222,7 @@ const MySubmissions: React.FC = () => {
                   py-4 px-1 border-b-2 font-medium text-sm transition-colors
                   ${
                     filter === tab.key
-                      ? 'border-tsinghua-purple text-tsinghua-purple'
+                      ? 'border-purple-600 text-purple-600'
                       : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                   }
                 `}
@@ -231,7 +231,7 @@ const MySubmissions: React.FC = () => {
                 <span
                   className={`ml-2 py-0.5 px-2 rounded-full text-xs ${
                     filter === tab.key
-                      ? 'bg-tsinghua-purple text-white'
+                      ? 'bg-purple-600 text-white'
                       : 'bg-gray-200 text-gray-600'
                   }`}
                 >
@@ -270,7 +270,7 @@ const MySubmissions: React.FC = () => {
             </p>
             <Link
               to="/assignments"
-              className="mt-4 inline-block text-tsinghua-purple hover:text-tsinghua-purple-dark font-medium"
+              className="mt-4 inline-block text-purple-600 hover:text-purple-700 font-medium"
             >
               View Assignments
             </Link>
@@ -286,7 +286,7 @@ const MySubmissions: React.FC = () => {
                     <div className="flex-1">
                       <Link
                         to={`/assignments/${submission.assignmentId}`}
-                        className="text-lg font-bold text-gray-900 hover:text-tsinghua-purple transition-colors"
+                        className="text-lg font-bold text-gray-900 hover:text-purple-600 transition-colors"
                       >
                         {submission.assignmentTitle || 'Assignment'}
                       </Link>
@@ -327,7 +327,7 @@ const MySubmissions: React.FC = () => {
                             key={attachment.id}
                             onClick={() => handleDownloadAttachment(attachment.id, attachment.fileName)}
                             disabled={downloading === attachment.id}
-                            className="inline-flex items-center px-3 py-1 bg-tsinghua-purple text-white text-xs rounded-full hover:bg-tsinghua-purple-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="inline-flex items-center px-3 py-1 bg-purple-600 text-white text-xs rounded-full hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                           >
                             {downloading === attachment.id ? (
                               <>
