@@ -37,7 +37,9 @@
       "Bash(find:*)",
       "Bash(npx ts-node:*)",
       "Bash(export NODE_ENV=development)",
-      "Bash(pg_isready:*)"
+      "Bash(pg_isready:*)",
+      "Bash(git commit -m \"$(cat <<''EOF''\nAdd comprehensive enhancements: i18n, Jupyter support, branding updates\n\nMajor Features:\n- Full internationalization with persistent language selection (English/Chinese)\n- Jupyter notebook (.ipynb) file upload support\n- Clickable submission cards linking to detailed views\n- WeiXu branding with GitHub repository link in footer\n\nTechnical Improvements:\n- i18next integration with localStorage persistence\n- Language preference saved across sessions, defaults to Chinese\n- File validation for .ipynb files (MIME type + extension check)\n- Replaced Tsinghua-specific colors with generic purple palette\n\nUX Enhancements:\n- Students can now click recent submissions to view details with feedback\n- Language switcher available on all pages (navbar, login, register)\n- Optimized logo with reduced white space\n- Enhanced hover states and transitions\n\nDocumentation:\n- Updated SPECIFICATION.md with Version 2.0 changes\n- Documented all new features and technical improvements\n- Updated system branding and technology stack sections\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
+      "Bash(git commit:*)"
     ],
     "deny": [],
     "ask": []

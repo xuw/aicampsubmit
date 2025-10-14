@@ -1,17 +1,15 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { assignmentAPI, submissionAPI } from '../services/api';
 import { Assignment, Submission } from '../types';
 import Card from '../components/ui/Card';
 import Button from '../components/ui/Button';
-import Input from '../components/ui/Input';
 import LoadingSpinner from '../components/ui/LoadingSpinner';
 
 const AssignmentDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const { user } = useAuth();
-  const navigate = useNavigate();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [assignment, setAssignment] = useState<Assignment | null>(null);

@@ -31,7 +31,7 @@ const ReviewSubmission: React.FC = () => {
   const isStudent = user?.role === 'student';
 
   // Check if student is viewing their own submission
-  const canView = isInstructor || (isStudent && submission && submission.studentId === user?.id);
+  // const canView = isInstructor || (isStudent && submission && submission.studentId === user?.id);
 
   // Fetch submission and feedback
   useEffect(() => {

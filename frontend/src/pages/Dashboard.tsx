@@ -51,7 +51,7 @@ const Dashboard: React.FC = () => {
       if (!isInstructor) {
         const totalAssignments = assignmentsResponse.data.total;
         const gradedCount = submissions.filter(s => s.status === 'graded').length;
-        const submittedCount = submissions.filter(s => s.status === 'submitted').length;
+        // const submittedCount = submissions.filter(s => s.status === 'submitted').length;
         const pendingCount = totalAssignments - submissions.length;
 
         setStats({

@@ -9,8 +9,8 @@ WORKDIR /app/frontend
 # Copy frontend package files
 COPY frontend/package*.json ./
 
-# Install frontend dependencies
-RUN npm ci --only=production
+# Install frontend dependencies (including dev dependencies for build)
+RUN npm ci
 
 # Copy frontend source
 COPY frontend/ ./
@@ -101,7 +101,7 @@ echo "Starting AI+ Bootcamp Submission System..."
 
 # Wait for database to be ready
 echo "Waiting for database..."
-until PGPASSWORD=\${DB_PASSWORD} psql -h "\${DB_HOST:-db}" -U "\${DB_USER:-homework_user}" -d "\${DB_NAME:-homework_system}" -c '\q' 2>/dev/null; do
+until PGPASSWORD="$DB_PASSWORD" psql -h "${DB_HOST:-db}" -U "${DB_USER:-homework_user}" -d "${DB_NAME:-homework_system}" -c '\q' 2>/dev/null; do
   echo "Database is unavailable - sleeping"
   sleep 2
 done
@@ -109,10 +109,10 @@ done
 echo "Database is ready!"
 
 # Run database migrations if needed
-if [ "\${RUN_MIGRATIONS:-true}" = "true" ]; then
+if [ "${RUN_MIGRATIONS:-true}" = "true" ]; then
   echo "Running database initialization..."
-  PGPASSWORD=\${DB_PASSWORD} psql -h "\${DB_HOST:-db}" -U "\${DB_USER:-homework_user}" -d "\${DB_NAME:-homework_system}" -f /app/backend/init.sql 2>/dev/null || echo "Tables already exist"
-  PGPASSWORD=\${DB_PASSWORD} psql -h "\${DB_HOST:-db}" -U "\${DB_USER:-homework_user}" -d "\${DB_NAME:-homework_system}" -f /app/backend/create-default-users.sql 2>/dev/null || echo "Users already exist"
+  PGPASSWORD="$DB_PASSWORD" psql -h "${DB_HOST:-db}" -U "${DB_USER:-homework_user}" -d "${DB_NAME:-homework_system}" -f /app/backend/init.sql 2>/dev/null || echo "Tables already exist"
+  PGPASSWORD="$DB_PASSWORD" psql -h "${DB_HOST:-db}" -U "${DB_USER:-homework_user}" -d "${DB_NAME:-homework_system}" -f /app/backend/create-default-users.sql 2>/dev/null || echo "Users already exist"
 fi
 
 # Start nginx in background
