@@ -1,0 +1,306 @@
+---
+# ConfigMap for application configuration
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: aibootcamp-config
+  namespace: weixu
+data:
+  NODE_ENV: "production"
+  PORT: "3001"
+  DB_HOST: "postgres-service"
+  DB_PORT: "5432"
+  DB_USER: "homework_user"
+  DB_NAME: "homework_system"
+  JWT_EXPIRE: "24h"
+  MAX_FILE_SIZE: "10485760"
+  UPLOAD_DIR: "/app/backend/uploads"
+  CORS_ORIGIN: "*"
+  RUN_MIGRATIONS: "true"
+
+---
+# Secret for sensitive data
+apiVersion: v1
+kind: Secret
+metadata:
+  name: aibootcamp-secrets
+  namespace: weixu
+type: Opaque
+stringData:
+  DB_PASSWORD: "homework_secure_password_123"
+  JWT_SECRET: "production_jwt_secret_key_minimum_32_chars_required_change_this"
+
+---
+# PostgreSQL Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres
+  namespace: weixu
+  labels:
+    app: postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+      - name: postgres
+        image: postgres:15-alpine
+        ports:
+        - containerPort: 5432
+          name: postgres
+        env:
+        - name: POSTGRES_DB
+          valueFrom:
+            configMapKeyRef:
+              name: aibootcamp-config
+              key: DB_NAME
+        - name: POSTGRES_USER
+          valueFrom:
+            configMapKeyRef:
+              name: aibootcamp-config
+              key: DB_USER
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: aibootcamp-secrets
+              key: DB_PASSWORD
+        volumeMounts:
+        - name: postgres-storage
+          mountPath: /var/lib/postgresql/data
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          exec:
+            command:
+            - pg_isready
+            - -U
+            - homework_user
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          exec:
+            command:
+            - pg_isready
+            - -U
+            - homework_user
+          initialDelaySeconds: 5
+          periodSeconds: 5
+      volumes:
+      - name: postgres-storage
+        persistentVolumeClaim:
+          claimName: postgres-pvc
+
+---
+# PostgreSQL Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-service
+  namespace: weixu
+  labels:
+    app: postgres
+spec:
+  type: ClusterIP
+  ports:
+  - port: 5432
+    targetPort: 5432
+    protocol: TCP
+    name: postgres
+  selector:
+    app: postgres
+
+---
+# PostgreSQL PersistentVolumeClaim
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-pvc
+  namespace: weixu
+spec:
+  storageClassName: nfs-users
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 5Gi
+
+---
+# Application Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aibootcamp-app
+  namespace: weixu
+  labels:
+    app: aibootcamp
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: aibootcamp
+  template:
+    metadata:
+      labels:
+        app: aibootcamp
+    spec:
+      initContainers:
+      - name: wait-for-db
+        image: postgres:15-alpine
+        command: ['sh', '-c', 'until pg_isready -h postgres-service -U homework_user; do echo waiting for database; sleep 2; done;']
+        env:
+        - name: PGPASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: aibootcamp-secrets
+              key: DB_PASSWORD
+      containers:
+      - name: app
+        image: harbor.ai.iiis.co:9443/xuw/aibootcamp-submit:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+          name: http
+        env:
+        - name: NODE_ENV
+          valueFrom:
+            configMapKeyRef:
+              name: aibootcamp-config
+              key: NODE_ENV
+        - name: PORT
+          valueFrom:
+            configMapKeyRef:
+              name: aibootcamp-config
+              key: PORT
+        - name: DB_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: aibootcamp-config
+              key: DB_HOST
+        - name: DB_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: aibootcamp-config
+              key: DB_PORT
+        - name: DB_USER
+          valueFrom:
+            configMapKeyRef:
+              name: aibootcamp-config
+              key: DB_USER
+        - name: DB_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: aibootcamp-config
+              key: DB_NAME
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: aibootcamp-secrets
+              key: DB_PASSWORD
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: aibootcamp-secrets
+              key: JWT_SECRET
+        - name: JWT_EXPIRE
+          valueFrom:
+            configMapKeyRef:
+              name: aibootcamp-config
+              key: JWT_EXPIRE
+        - name: MAX_FILE_SIZE
+          valueFrom:
+            configMapKeyRef:
+              name: aibootcamp-config
+              key: MAX_FILE_SIZE
+        - name: UPLOAD_DIR
+          valueFrom:
+            configMapKeyRef:
+              name: aibootcamp-config
+              key: UPLOAD_DIR
+        - name: CORS_ORIGIN
+          valueFrom:
+            configMapKeyRef:
+              name: aibootcamp-config
+              key: CORS_ORIGIN
+        - name: RUN_MIGRATIONS
+          valueFrom:
+            configMapKeyRef:
+              name: aibootcamp-config
+              key: RUN_MIGRATIONS
+        - name: DATABASE_URL
+          value: "postgresql://$(DB_USER):$(DB_PASSWORD)@$(DB_HOST):$(DB_PORT)/$(DB_NAME)"
+        volumeMounts:
+        - name: uploads
+          mountPath: /app/backend/uploads
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "1Gi"
+            cpu: "1000m"
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 60
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 30
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
+      volumes:
+      - name: uploads
+        persistentVolumeClaim:
+          claimName: uploads-pvc
+
+---
+# Uploads PersistentVolumeClaim
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: uploads-pvc
+  namespace: weixu
+spec:
+  storageClassName: nfs-users
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Gi
+
+---
+# Application Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: aibootcamp-service
+  namespace: weixu
+  labels:
+    app: aibootcamp
+spec:
+  type: NodePort
+  ports:
+  - port: 80
+    targetPort: 80
+    protocol: TCP
+    name: http
+  selector:
+    app: aibootcamp
