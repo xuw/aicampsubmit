@@ -41,7 +41,8 @@ const FileViewer: React.FC<FileViewerProps> = ({ attachmentId, fileName, onClose
         // For binary files (PDF, images), fetch as blob with authentication
         if (['pdf', 'jpg', 'jpeg', 'png', 'gif'].includes(fileExtension)) {
           const response = await submissionAPI.downloadAttachment(attachmentId);
-          const url = window.URL.createObjectURL(new Blob([response.data]));
+          // response.data is already a Blob when responseType is 'blob'
+          const url = window.URL.createObjectURL(response.data);
           setBlobUrl(url);
         }
         // For text-based files, fetch and display content
