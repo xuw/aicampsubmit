@@ -8,6 +8,8 @@ const FILE_TYPE_OPTIONS = [
   { value: 'pdf', label: 'PDF (.pdf)' },
   { value: 'doc', label: 'Word (.doc, .docx)' },
   { value: 'txt', label: 'Text (.txt)' },
+  { value: 'md', label: 'Markdown (.md)' },
+  { value: 'ipynb', label: 'Jupyter Notebook (.ipynb)' },
   { value: 'zip', label: 'ZIP (.zip)' },
   { value: 'jpg', label: 'Image (.jpg, .jpeg, .png)' },
   { value: 'py', label: 'Python (.py)' },
