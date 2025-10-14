@@ -1,0 +1,35 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir:*)",
+      "Bash(docker:*)",
+      "Bash(docker-compose:*)",
+      "Bash(test:*)",
+      "Bash(cp:*)",
+      "Bash(cat:*)",
+      "Bash(npm run dev)",
+      "Bash(lsof:*)",
+      "Bash(xargs kill:*)",
+      "Bash(curl:*)",
+      "Bash(node:*)",
+      "Bash(npm install:*)",
+      "Bash(export DATABASE_URL=postgresql://homework_user:homework_secure_password_123@localhost:5432/homework_system_test)",
+      "Bash(export JWT_SECRET=test-jwt-secret-key-for-testing-minimum-32-chars)",
+      "Bash(export NODE_ENV=test)",
+      "Bash(npm test)",
+      "Bash(npm test:*)",
+      "Bash(tee:*)",
+      "Bash(wait)",
+      "Bash(PGPASSWORD=homework_secure_password_123 psql:*)",
+      "Read(//private/tmp/**)",
+      "Bash(pkill:*)",
+      "Bash(kill:*)",
+      "Bash(npx tsc:*)",
+      "Bash(DATABASE_URL=postgresql://homework_user:homework_secure_password_123@localhost:5432/homework_system_test JWT_SECRET=test-jwt-secret-key-for-testing-minimum-32-chars NODE_ENV=test npx ts-node src/server.ts)",
+      "Bash(git init:*)",
+      "Bash(git add:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
