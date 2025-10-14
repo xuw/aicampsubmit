@@ -87,6 +87,11 @@ export const submissionAPI = {
     api.get(`/submissions/attachments/${attachmentId}/download`, {
       responseType: 'blob',
     }),
+
+  viewAttachment: (attachmentId: string) =>
+    api.get(`/submissions/attachments/${attachmentId}/view`, {
+      responseType: 'text',
+    }),
 };
 
 // Feedback API

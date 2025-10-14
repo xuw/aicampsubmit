@@ -326,3 +326,56 @@ export const downloadAttachment = async (req: AuthRequest, res: Response): Promi
     res.status(500).json({ error: 'Internal server error' });
   }
 };
+
+export const viewAttachment = async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    const { attachmentId } = req.params;
+
+    const result = await pool.query(
+      `SELECT a.*, s.student_id
+       FROM attachments a
+       JOIN submissions s ON a.submission_id = s.id
+       WHERE a.id = $1`,
+      [attachmentId]
+    );
+
+    if (result.rows.length === 0) {
+      res.status(404).json({ error: 'Attachment not found' });
+      return;
+    }
+
+    const attachment = result.rows[0];
+
+    // Check authorization
+    if (attachment.student_id !== req.user!.userId && !['ta', 'instructor', 'admin'].includes(req.user!.role)) {
+      res.status(403).json({ error: 'Forbidden' });
+      return;
+    }
+
+    const filePath = path.resolve(attachment.file_path);
+    const fs = require('fs');
+
+    // Set appropriate content type based on file extension
+    const ext = path.extname(attachment.file_name).toLowerCase();
+    const contentTypes: { [key: string]: string } = {
+      '.pdf': 'application/pdf',
+      '.txt': 'text/plain; charset=utf-8',
+      '.md': 'text/markdown; charset=utf-8',
+      '.ipynb': 'application/json; charset=utf-8',
+      '.json': 'application/json; charset=utf-8',
+      '.jpg': 'image/jpeg',
+      '.jpeg': 'image/jpeg',
+      '.png': 'image/png',
+      '.gif': 'image/gif',
+    };
+
+    const contentType = contentTypes[ext] || 'application/octet-stream';
+    res.setHeader('Content-Type', contentType);
+    res.setHeader('Content-Disposition', 'inline');
+
+    fs.createReadStream(filePath).pipe(res);
+  } catch (error) {
+    console.error('View attachment error:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};

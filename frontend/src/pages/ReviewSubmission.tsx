@@ -4,6 +4,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { submissionAPI, feedbackAPI } from '../services/api';
 import { Submission, Feedback } from '../types';
 import { Button, Card, LoadingSpinner } from '../components/ui';
+import FileViewer from '../components/FileViewer';
 
 const ReviewSubmission: React.FC = () => {
   const { id: submissionId } = useParams<{ id: string }>();
@@ -17,6 +18,7 @@ const ReviewSubmission: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [downloading, setDownloading] = useState<string | null>(null);
+  const [viewingFile, setViewingFile] = useState<{ id: string; name: string } | null>(null);
 
   const [feedbackContent, setFeedbackContent] = useState('');
   const [grade, setGrade] = useState('');
@@ -386,17 +388,26 @@ const ReviewSubmission: React.FC = () => {
                           </p>
                         </div>
                       </div>
-                      <Button
-                        onClick={() =>
-                          handleDownloadAttachment(attachment.id, attachment.fileName)
-                        }
-                        variant="secondary"
-                        size="sm"
-                        isLoading={downloading === attachment.id}
-                        disabled={downloading === attachment.id}
-                      >
-                        Download
-                      </Button>
+                      <div className="flex gap-2">
+                        <Button
+                          onClick={() => setViewingFile({ id: attachment.id, name: attachment.fileName })}
+                          variant="primary"
+                          size="sm"
+                        >
+                          View
+                        </Button>
+                        <Button
+                          onClick={() =>
+                            handleDownloadAttachment(attachment.id, attachment.fileName)
+                          }
+                          variant="secondary"
+                          size="sm"
+                          isLoading={downloading === attachment.id}
+                          disabled={downloading === attachment.id}
+                        >
+                          Download
+                        </Button>
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -570,6 +581,15 @@ const ReviewSubmission: React.FC = () => {
         </div>
         )}
       </div>
+
+      {/* File Viewer Modal */}
+      {viewingFile && (
+        <FileViewer
+          attachmentId={viewingFile.id}
+          fileName={viewingFile.name}
+          onClose={() => setViewingFile(null)}
+        />
+      )}
     </div>
   );
 };
