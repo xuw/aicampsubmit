@@ -4,20 +4,9 @@ This guide explains how to submit your assignments using the command-line submis
 
 ## Prerequisites
 
-- Python 3.6 or higher
-- `requests` library
+- Python 3.6 or higher (no additional libraries required!)
 
-### Install Python Requests Library
-
-```bash
-pip install requests
-```
-
-Or using pip3:
-
-```bash
-pip3 install requests
-```
+**Note**: This script uses only Python standard library (urllib, zipfile, json, etc.) for maximum portability. No `pip install` needed!
 
 ## Quick Start
 
@@ -31,16 +20,22 @@ Download `submit.py` from the course website or repository and save it to a conv
 chmod +x submit.py
 ```
 
-### 3. Submit Your Assignment
+### 3. List Available Assignments
 
 ```bash
-python submit.py --directory ./my-homework --assignment "Assignment 1"
+python3 submit.py --list-assignments
+# or
+python3 submit.py -l
 ```
 
-Or on some systems:
+This will show you all active assignments with due dates.
+
+### 4. Submit Your Assignment
 
 ```bash
 python3 submit.py --directory ./my-homework --assignment "Assignment 1"
+# or
+python3 submit.py -d ./homework1 -a "Assignment 1"
 ```
 
 ## Detailed Usage
@@ -73,8 +68,9 @@ These details (except password) will be saved to `~/.aibootcamp/config.json` for
 
 | Option | Short | Description | Required |
 |--------|-------|-------------|----------|
-| `--directory` | `-d` | Directory to submit (will be zipped) | Yes |
-| `--assignment` | `-a` | Assignment name (must match exactly) | Yes |
+| `--list-assignments` | `-l` | List all active assignments and exit | No |
+| `--directory` | `-d` | Directory to submit (will be zipped) | For submission |
+| `--assignment` | `-a` | Assignment name (must match exactly) | For submission |
 | `--server` | `-s` | Server URL (e.g., https://aicamp.iiis.co) | No* |
 | `--email` | `-e` | Your email address | No* |
 | `--comment` | `-c` | Optional comment for the submission | No |
@@ -84,10 +80,25 @@ These details (except password) will be saved to `~/.aibootcamp/config.json` for
 
 ### Examples
 
+#### List all active assignments:
+
+```bash
+python3 submit.py --list-assignments
+# or
+python3 submit.py -l
+```
+
+This shows:
+- Assignment names
+- Due dates
+- Time remaining
+- Brief descriptions
+- Late submission status
+
 #### Submit with custom server URL:
 
 ```bash
-python submit.py \
+python3 submit.py \
   -d ./project \
   -a "Final Project" \
   -s https://aicamp.iiis.co
@@ -96,7 +107,7 @@ python submit.py \
 #### Submit with a comment:
 
 ```bash
-python submit.py \
+python3 submit.py \
   -d ./homework2 \
   -a "Homework 2" \
   -c "Completed all bonus problems. Please review the extra-credit.py file."
@@ -105,7 +116,7 @@ python submit.py \
 #### Submit without saving credentials:
 
 ```bash
-python submit.py \
+python3 submit.py \
   -d ./assignment3 \
   -a "Assignment 3" \
   --no-save
