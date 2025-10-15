@@ -51,7 +51,8 @@ spec:
     spec:
       containers:
       - name: postgres
-        image: postgres:15-alpine
+        image: harbor.ai.iiis.co:9443/xuw/postgres:15-alpine-amd64
+        imagePullPolicy: Always
         ports:
         - containerPort: 5432
           name: postgres
@@ -157,8 +158,16 @@ spec:
     spec:
       initContainers:
       - name: wait-for-db
-        image: postgres:15-alpine
+        image: harbor.ai.iiis.co:9443/xuw/postgres:15-alpine-amd64
+        imagePullPolicy: Always
         command: ['sh', '-c', 'until pg_isready -h postgres-service -U homework_user; do echo waiting for database; sleep 2; done;']
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "64Mi"
+          limits:
+            cpu: "200m"
+            memory: "128Mi"
         env:
         - name: PGPASSWORD
           valueFrom:
@@ -170,7 +179,7 @@ spec:
         image: harbor.ai.iiis.co:9443/xuw/aibootcamp-submit:latest
         imagePullPolicy: Always
         ports:
-        - containerPort: 80
+        - containerPort: 7780
           name: http
         env:
         - name: NODE_ENV
@@ -253,7 +262,7 @@ spec:
         livenessProbe:
           httpGet:
             path: /
-            port: 80
+            port: 7780
           initialDelaySeconds: 60
           periodSeconds: 10
           timeoutSeconds: 5
@@ -261,7 +270,7 @@ spec:
         readinessProbe:
           httpGet:
             path: /
-            port: 80
+            port: 7780
           initialDelaySeconds: 30
           periodSeconds: 5
           timeoutSeconds: 3
@@ -291,15 +300,15 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: aibootcamp-service
+  name: aibootcamp-app-service
   namespace: weixu
   labels:
     app: aibootcamp
 spec:
   type: NodePort
   ports:
-  - port: 80
-    targetPort: 80
+  - port: 7780
+    targetPort: 7780
     protocol: TCP
     name: http
   selector:

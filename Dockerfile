@@ -63,7 +63,7 @@ COPY --from=frontend-builder /app/frontend/dist ./frontend/dist
 RUN mkdir -p /run/nginx
 COPY <<EOF /etc/nginx/http.d/default.conf
 server {
-    listen 80;
+    listen 7780;
     server_name _;
 
     # Frontend - serve static files
@@ -127,8 +127,8 @@ EOF
 
 RUN chmod +x /app/start.sh
 
-# Expose port 80 for nginx (which proxies to backend on 3001)
-EXPOSE 80
+# Expose port 7780 for nginx (which proxies to backend on 3001)
+EXPOSE 7780
 
 # Set environment variables defaults
 ENV NODE_ENV=production \
@@ -144,7 +144,7 @@ ENV NODE_ENV=production \
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
-  CMD wget --no-verbose --tries=1 --spider http://localhost/api/health || exit 1
+  CMD wget --no-verbose --tries=1 --spider http://localhost:7780/api/health || exit 1
 
 # Start the application
 CMD ["/app/start.sh"]

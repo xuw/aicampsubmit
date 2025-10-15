@@ -175,7 +175,8 @@ spec:
               key: DB_PASSWORD
       containers:
       - name: app
-        image: xuw/aibootcamp-submit:latest
+        image: harbor.ai.iiis.co:9443/xuw/aibootcamp-submit:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 80
           name: http
