@@ -113,7 +113,9 @@ class SubmissionClient:
             )
 
             if response.status_code == 200:
-                assignments = response.json()
+                data = response.json()
+                # Handle both array and object responses
+                assignments = data.get('assignments', data) if isinstance(data, dict) else data
                 # Try exact match first
                 for assignment in assignments:
                     if assignment['title'] == assignment_name:
