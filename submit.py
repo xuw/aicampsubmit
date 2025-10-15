@@ -403,7 +403,7 @@ def load_config() -> Dict[str, str]:
     config_file = config_dir / 'config.json'
 
     default_config = {
-        'server_url': 'http://127.0.0.1:3001',
+        'server_url': 'https://aicamp.iiis.co:9443',
         'email': ''
     }
 
@@ -525,7 +525,7 @@ Configuration:
 
     parser.add_argument(
         '-s', '--server',
-        help='Server URL (default: from config or http://localhost:3001)'
+        help='Server URL (default: from config or https://aicamp.iiis.co:9443)'
     )
 
     parser.add_argument(
@@ -551,7 +551,7 @@ Configuration:
     config = load_config()
 
     # Determine server URL
-    server_url = args.server or config.get('server_url', 'http://localhost:3001')
+    server_url = args.server or config.get('server_url', 'https://aicamp.iiis.co:9443')
 
     # Handle list assignments command
     if args.list_assignments:

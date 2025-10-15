@@ -58,11 +58,12 @@ python submit.py -d ./homework1 -a "Assignment 1"
 
 On your first submission, you'll be asked to provide:
 
-1. **Server URL** (if not using localhost)
-2. **Email address** - Your registered student email
-3. **Password** - Your account password (not saved, entered securely)
+1. **Email address** - Your registered student email
+2. **Password** - Your account password (not saved, entered securely)
 
-These details (except password) will be saved to `~/.aibootcamp/config.json` for future use.
+The script connects to the production server (`https://aicamp.iiis.co:9443`) by default. Your email will be saved to `~/.aibootcamp/config.json` for future use.
+
+**Note**: If you need to connect to a different server (e.g., for local testing), use the `--server` flag.
 
 ### Command Line Options
 
@@ -71,7 +72,7 @@ These details (except password) will be saved to `~/.aibootcamp/config.json` for
 | `--list-assignments` | `-l` | List all active assignments and exit | No |
 | `--directory` | `-d` | Directory to submit (will be zipped) | For submission |
 | `--assignment` | `-a` | Assignment name (must match exactly) | For submission |
-| `--server` | `-s` | Server URL (e.g., https://aicamp.iiis.co) | No* |
+| `--server` | `-s` | Server URL (default: https://aicamp.iiis.co:9443) | No |
 | `--email` | `-e` | Your email address | No* |
 | `--comment` | `-c` | Optional comment for the submission | No |
 | `--no-save` | | Don't save email/server to config file | No |

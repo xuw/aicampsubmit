@@ -10,9 +10,9 @@ echo "Example 1: Basic submission (you'll be prompted for credentials)"
 echo "python submit.py -d ./my-homework -a \"Assignment 1\""
 echo ""
 
-# Example 2: With server URL
-echo "Example 2: Specify server URL"
-echo "python submit.py -d ./project -a \"Final Project\" -s https://aicamp.iiis.co"
+# Example 2: With custom server URL (normally not needed)
+echo "Example 2: Specify custom server URL (for testing)"
+echo "python submit.py -d ./project -a \"Final Project\" -s http://localhost:3001"
 echo ""
 
 # Example 3: With comment
@@ -26,11 +26,10 @@ echo "python submit.py -d ./assignment3 -a \"Assignment 3\" -e student@example.c
 echo ""
 
 # Example 5: Full example with all options
-echo "Example 5: Complete example with all options"
+echo "Example 5: Complete example with comment and email"
 echo "python submit.py \\"
 echo "  --directory ./final-project \\"
 echo "  --assignment \"Final Project\" \\"
-echo "  --server https://aicamp.iiis.co \\"
 echo "  --email student@example.com \\"
 echo "  --comment \"This project includes the optional advanced features\""
 echo ""
@@ -40,7 +39,6 @@ echo "Example 6: Same as above but with short options"
 echo "python submit.py \\"
 echo "  -d ./final-project \\"
 echo "  -a \"Final Project\" \\"
-echo "  -s https://aicamp.iiis.co \\"
 echo "  -e student@example.com \\"
 echo "  -c \"This project includes the optional advanced features\""
 echo ""
