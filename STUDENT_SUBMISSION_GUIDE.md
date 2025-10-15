@@ -199,14 +199,29 @@ The script saves your preferences to `~/.aibootcamp/config.json`:
 
 ```json
 {
-  "server_url": "https://aicamp.iiis.co",
+  "server_url": "https://aicamp.iiis.co:9443",
   "email": "student@example.com"
 }
 ```
 
 You can edit this file manually or delete it to reset.
 
+**Note**: If you're upgrading from an older version of the script, you may need to update or delete your config file to use the new default production server.
+
 ## Troubleshooting
+
+### Wrong Server (Connecting to Localhost)
+
+**Problem:** Script connects to localhost instead of production server
+
+**Solution:** Your config file has the old server URL saved. Update it:
+```bash
+# Option 1: Delete the config file to reset to defaults
+rm ~/.aibootcamp/config.json
+
+# Option 2: Edit the config file manually
+# Change "server_url" to "https://aicamp.iiis.co:9443"
+```
 
 ### Connection Errors
 
